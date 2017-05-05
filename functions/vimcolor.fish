@@ -81,8 +81,13 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
             # execute set_color
             if string length -q $to_eval
-                echo -n (eval set_color $to_eval)"set fish_color_$fish_group $to_eval"
-                echo (set_color normal)
+                if isatty stdout
+                    echo -n (eval set_color $to_eval)
+                    echo "set fish_color_$fish_group $to_eval"(set_color normal)
+                else
+                    echo "set fish_color_$fish_group $to_eval"
+                end
+
                 eval "set fish_color_$fish_group $to_eval"
                 return
             end
@@ -106,7 +111,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
      +'highlight'\
      +'redir END'\
      +'put a'\
-     +'wq!'
+     +'wq!' >/dev/null
 
     __vimcolor_convert $tmp normal Normal
     __vimcolor_convert $tmp command Statement

@@ -1,12 +1,32 @@
+
+set -q fish_color_autosuggestion  ; or set -U fish_color_autosuggestion
+set -q fish_color_command         ; or set -U fish_color_command
+set -q fish_color_comment         ; or set -U fish_color_comment
+set -q fish_color_cwd             ; or set -U fish_color_cwd
+set -q fish_color_cwd_root        ; or set -U fish_color_cwd_root
+set -q fish_color_end             ; or set -U fish_color_end
+set -q fish_color_error           ; or set -U fish_color_error
+set -q fish_color_escape          ; or set -U fish_color_escape
+set -q fish_color_history_current ; or set -U fish_color_history_current
+set -q fish_color_host            ; or set -U fish_color_host
+set -q fish_color_match           ; or set -U fish_color_match
+set -q fish_color_normal          ; or set -U fish_color_normal
+set -q fish_color_operator        ; or set -U fish_color_operator
+set -q fish_color_param           ; or set -U fish_color_param
+set -q fish_color_quote           ; or set -U fish_color_quote
+set -q fish_color_redirection     ; or set -U fish_color_redirection
+set -q fish_color_search_match    ; or set -U fish_color_search_match
+set -q fish_color_selection       ; or set -U fish_color_selection
+set -q fish_color_status          ; or set -U fish_color_status
+set -q fish_color_user            ; or set -U fish_color_user
+set -q fish_color_valid_path      ; or set -U fish_color_valid_path
+
 set -l old_fish_color_end $fish_color_end
 set -l old_fish_color_match $fish_color_match
 set -l old_fish_color_escape $fish_color_escape
 set -l old_fish_color_selection $fish_color_selection
 
-alias vim /usr/bin/vim
 vimcolor default
-
-set | grep 'fish_color'
 
 test "fish_color_end"
     "$old_fish_color_end" = "$fish_color_end"

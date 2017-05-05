@@ -18,8 +18,7 @@ fisher ryotako/vimcolor-fish
 ```fish
 vimcolor [colorscheme-name]
 ```
-
-![demo.gif](./demo.gif)
+<img src=./demo.gif width=400px>
 
 [travis-link]: https://travis-ci.org/test/test
 [travis-badge]: https://img.shields.io/travis/test/test.svg

@@ -91,7 +91,9 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
                     echo "set$scope fish_color_$fish_group $to_eval"
                 end
                 
-                eval "set -e fish_color_$fish_group"
+                if test "$scope" = " -U"
+                    eval "set -e fish_color_$fish_group"
+                end
                 eval "set$scope fish_color_$fish_group $to_eval"
                 return
             end

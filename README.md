@@ -1,4 +1,4 @@
-# vimcolor-fish
+# fish-vimcolor
 
 [![Build Status][travis-badge]][travis-link]
 [![Slack Room][slack-badge]][slack-link]

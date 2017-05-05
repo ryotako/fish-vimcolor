@@ -10,7 +10,7 @@
 With [fisherman]
 
 ```
-fisher ryotako/vimcolor-fish
+fisher ryotako/fish-vimcolor
 ```
 
 ## Usage

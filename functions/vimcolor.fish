@@ -50,7 +50,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
             # foreground color
             if set -q color[2]
                 if begin
-                        not string match -qr '^[0-9a-fa-f]{6}$' $color[2]
+                        not string match -qr '^[0-9a-fA-F]{6}$' $color[2]
                         and not string match -iq $color[2] (set_color -c)
                     end
                     echo "vimcolor: unknown color '$color[2]' ($vim_group -> fish_color_$fish_group)" >/dev/stderr

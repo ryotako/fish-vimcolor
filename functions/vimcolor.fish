@@ -1,4 +1,12 @@
 function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorscheme'
+    while count $argv >/dev/null
+        switch $argv[1]
+            case -h --help
+               __vimcolor_usage 
+               return
+       end
+    end
+
     set -l tmp (mktemp)
     vim $tmp -e\
     +'set nonumber'\
@@ -28,6 +36,18 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
     __vimcolor_set_color $tmp fish_color_selection       Visual
 
     rm $tmp
+end
+
+function vimcolor_usage
+    string trim "
+Name: vimcolor - Convert vim-colorscheme into a fish-colorscheme!
+    
+Usage:
+    vimcolor [options] [vim-colorscheme]
+
+Options:
+    -h, --help  show this help message
+"
 end
 
 function __vimcolor_set_color -a tmp fish_group vim_group

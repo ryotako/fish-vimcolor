@@ -3,7 +3,7 @@
 [![Build Status][travis-badge]][travis-link]
 [![Slack Room][slack-badge]][slack-link]
 
-vimcolor
+**Convert a vim-colorschem into a fish-colorscheme!**
 
 ## Install
 
@@ -16,8 +16,10 @@ fisher ryotako/vimcolor-fish
 ## Usage
 
 ```fish
-vimcolor
+vimcolor [colorscheme-name]
 ```
+
+![demo.gif](./demo.gif)
 
 [travis-link]: https://travis-ci.org/test/test
 [travis-badge]: https://img.shields.io/travis/test/test.svg

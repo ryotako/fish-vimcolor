@@ -14,4 +14,5 @@ function __vimcolor_colorschemes
 end
 
 complete -c vimcolor -d 'convert a vim-colorscheme into a fish-colorscheme!'
+complete -c vimcolor -s h -l help 'show help message'
 complete -f -c vimcolor -a '(__vimcolor_colorschemes)'

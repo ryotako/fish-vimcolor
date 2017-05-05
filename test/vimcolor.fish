@@ -3,7 +3,10 @@ set -l old_fish_color_match $fish_color_match
 set -l old_fish_color_escape $fish_color_escape
 set -l old_fish_color_selection $fish_color_selection
 
+alias vim /usr/bin/vim
 vimcolor default
+
+set | grep 'fish_color'
 
 test "fish_color_end"
     "$old_fish_color_end" = "$fish_color_end"

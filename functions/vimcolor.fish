@@ -50,7 +50,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
                         not string match -qr '^[0-9a-fa-f]{6}$' $color[2]
                         and not string match -iq $color[2] (set_color -c)
                     end
-                    echo "vimcolor: color of $vim_group '$color[2]' is unknown" >/dev/stderr
+                    echo "vimcolor: unknown color '$color[2]' ($vim_group -> fish_color_$fish_group)" >/dev/stderr
                 else
                     set to_eval "$to_eval $color[2]"
                 end
@@ -62,7 +62,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
                         not string match -qr '^[0-9a-fa-f]{6}$' $bkg[2]
                         and not string match -iq $bkg[2] (set_color -c)
                     end
-                    echo "vimcolor: background color of $vim_group '$bkg[2]' is unknown" >/dev/stderr
+                    echo "vimcolor: unknown background color '$bkg[2]' ($vim_group -> fish_color_$fish_group)" >/dev/stderr
                 else
                     set to_eval "$to_eval --background=$bkg[2]"
                 end

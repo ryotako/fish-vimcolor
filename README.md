@@ -15,8 +15,16 @@ fisher ryotako/fish-vimcolor
 ## Usage
 
 ```fish
-vimcolor [colorscheme-name]
+Name: vimcolor - Convert vim-colorscheme into a fish-colorscheme!
+
+Usage:
+    vimcolor [options] [vim-colorscheme]
+
+Options:
+    -h, --help       show this help message
+    -U, --universal  save the colorscheme as universal variables
 ```
+
 <img src=./demo.gif width=400px>
 
 [slack-link]: https://fisherman-wharf.herokuapp.com

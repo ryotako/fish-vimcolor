@@ -15,4 +15,5 @@ end
 
 complete -c vimcolor -d 'convert a vim-colorscheme into a fish-colorscheme!'
 complete -c vimcolor -s h -l help -d 'show help message'
+complete -c vimcolor -s U -l universal -d 'save colorscheme as universal variables'
 complete -f -c vimcolor -a '(__vimcolor_colorschemes)'

@@ -70,4 +70,3 @@ function __vimcolor_set_color -a tmp fish_group vim_group
         end
     end < $tmp
 end
-end

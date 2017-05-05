@@ -7,16 +7,19 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         echo "    vimcolor [options] [vim-colorscheme]"
         echo
         echo "Options:"
-        echo "    -h, --help     show this help message"
+        echo "    -h, --help       show this help message"
+        echo "    -U, --universal  save the colorscheme as universal variables"
     end
 
-    set -l options
+    set -l scope ' -g'
     set -l scheme
     while count $argv >/dev/null
         switch $argv[1]
             case -h --help
                 __vimcolor_usage
                 return
+            case -U --universal
+                set scope ' -U'
             case '--'
                 if set -q argv[2]
                     set scheme $argv[2]
@@ -37,7 +40,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         return 1
     end
 
-    function __vimcolor_convert -a tmp fish_group vim_group -V options
+    function __vimcolor_convert -V scope -a tmp fish_group vim_group
         while read -l line
             set -l attrs (string match -r "^$vim_group .*gui=(\w+(,\w+)*)" $line)
             set -l color (string match -r "^$vim_group .*guifg=#?(\w+)"    $line)
@@ -83,12 +86,13 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
             if string length -q $to_eval
                 if isatty stdout
                     echo -n (eval set_color $to_eval)
-                    echo "set fish_color_$fish_group $to_eval"(set_color normal)
+                    echo "set$scope fish_color_$fish_group $to_eval"(set_color normal)
                 else
-                    echo "set fish_color_$fish_group $to_eval"
+                    echo "set$scope fish_color_$fish_group $to_eval"
                 end
-
-                eval "set fish_color_$fish_group $to_eval"
+                
+                eval "set -e fish_color_$fish_group"
+                eval "set$scope fish_color_$fish_group $to_eval"
                 return
             end
 

@@ -137,6 +137,11 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
      +'redir END'\
      +'put a'\
      +'wq!' >/dev/null
+    
+     if test "$status" != 0
+        echo "vimcolor: unknown colorscheme '$scheme'" >/dev/stderr
+        return 1
+     end
 
     __vimcolor_convert $tmp normal Normal
     __vimcolor_convert $tmp command Statement

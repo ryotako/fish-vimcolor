@@ -1,19 +1,5 @@
-function __vimcolor_colorschemes
-    vim -es -u '~/.vimrc' \
-    +'set nonumber' \
-    +'redir @a' \
-    +'echo globpath(&runtimepath, \'colors/*.vim\')' \
-    +'redir END' \
-    +'put a' \
-    +'%p' \
-    +'q!' | while read -l line
-        set -l scheme (string match -r '([^/]+)\.vim' $line)
-        and echo $scheme[2]
-    end
-    true
-end
-
 complete -c vimcolor -d 'convert a vim-colorscheme into a fish-colorscheme!'
 complete -c vimcolor -s h -l help -d 'show help message'
+complete -c vimcolor -s l -l list -d 'list available vim colorschemes'
 complete -c vimcolor -s U -l universal -d 'save colorscheme as universal variables'
-complete -f -c vimcolor -a '(__vimcolor_colorschemes)'
+complete -f -c vimcolor -a '(vimcolor --list)'

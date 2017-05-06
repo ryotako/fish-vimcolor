@@ -22,6 +22,7 @@ Usage:
 
 Options:
     -h, --help       show this help message
+    -l, --list       list available vim colorschemes
     -U, --universal  save the colorscheme as universal variables
 ```
 

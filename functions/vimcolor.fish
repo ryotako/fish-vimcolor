@@ -8,7 +8,23 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         echo
         echo "Options:"
         echo "    -h, --help       show this help message"
+        echo "    -l, --list       list available vim colorschemes"
         echo "    -U, --universal  save the colorscheme as universal variables"
+    end
+
+    function __vimcolor_list
+        vim -es -u '~/.vimrc' \
+        +'set nonumber' \
+        +'redir @a' \
+        +'echo globpath(&runtimepath, \'colors/*.vim\')' \
+        +'redir END' \
+        +'put a' \
+        +'%p' \
+        +'q!' | while read -l line
+            set -l scheme (string match -r '([^/]+)\.vim' $line)
+            and echo $scheme[2]
+        end
+        true
     end
 
     set -l scope ' -g'
@@ -17,6 +33,9 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         switch $argv[1]
             case -h --help
                 __vimcolor_usage
+                return
+            case -l --list
+                __vimcolor_list
                 return
             case -U --universal
                 set scope ' -U'

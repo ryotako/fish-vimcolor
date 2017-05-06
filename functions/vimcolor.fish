@@ -1,5 +1,6 @@
 function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorscheme'
 
+    # --help option message
     function __vimcolor_usage
         echo "Name: vimcolor - Convert vim-colorscheme into a fish-colorscheme!"
         echo
@@ -12,6 +13,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         echo "    -U, --universal  save the colorscheme as universal variables"
     end
 
+    # --list option
     function __vimcolor_list
         vim -es -u '~/.vimrc' \
         +'set nonumber' \
@@ -27,6 +29,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         true
     end
 
+    # Parse options
     set -l scope ' -g'
     set -l scheme
     while count $argv >/dev/null
@@ -54,11 +57,13 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         set -e argv[1]
     end
 
+    # Chack arguments
     if test (count $scheme) -gt 1
         echo "vimcolor: select only one colorscheme" >/dev/null
         return 1
     end
 
+    # Function to convert vim-colorscheme info into fish's one
     function __vimcolor_convert -V scope -a tmp fish_group vim_group
         while read -l line
             set -l attrs (string match -r "^$vim_group .*gui=(\w+(,\w+)*)" $line)

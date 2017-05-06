@@ -209,11 +209,11 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
     # Function to convert vim-colorscheme info into fish's one
     function __vimcolor_convert -V scope -a tmp fish_group vim_group
+        set -l to_eval ''
         while read -l line
             set -l attrs (string match -r "^$vim_group .*gui=(\w+(,\w+)*)" $line)
             set -l color (string match -r "^$vim_group .*guifg=#?(\w+)"    $line)
             set -l bkg   (string match -r "^$vim_group .*guibg=#?(\w+)"    $line)
-            set -l to_eval ''
 
             # foreground color
             if set -q color[2]
@@ -255,18 +255,8 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
             # execute set_color
             if string length -q $to_eval
-                if isatty stdout
-                    echo -n (eval set_color $to_eval)
-                    echo "set$scope fish_color_$fish_group $to_eval"(set_color normal)
-                else
-                    echo "set$scope fish_color_$fish_group $to_eval"
-                end
-                
-                if test "$scope" = " -U"
-                    eval "set -e fish_color_$fish_group"
-                end
-                eval "set$scope fish_color_$fish_group $to_eval"
-                return
+
+                break
             end
 
             # links to another syntax group
@@ -276,6 +266,17 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
                 return
             end
         end <$tmp
+
+        if isatty stdout
+            echo -n (eval set_color $to_eval)
+            echo "set$scope fish_color_$fish_group $to_eval"(set_color normal)
+        else
+            echo "set$scope fish_color_$fish_group $to_eval"
+        end
+        if test "$scope" = " -U"
+            eval "set -e fish_color_$fish_group"
+        end
+        eval "set$scope fish_color_$fish_group $to_eval"
     end
 
     # get the colorscheme information from vim

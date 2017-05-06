@@ -44,7 +44,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
                 set scope ' -U'
             case '--'
                 if set -q argv[2]
-                    set scheme $argv[2]
+                    set scheme $scheme $argv[2]
                     set -e argv[2]
                 end
             case '-*'
@@ -59,7 +59,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
     # Chack arguments
     if test (count $scheme) -gt 1
-        echo "vimcolor: select only one colorscheme" >/dev/null
+        echo "vimcolor: select only one colorscheme" >/dev/stderr
         return 1
     end
 

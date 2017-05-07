@@ -249,16 +249,20 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
             # background color
             if set -q bkg[2]
-                set -l hex
 
-                string match -qr '^[0-9a-fA-F]{6}$' $bkg[2]
-                and set hex $bkg[2]
-                or set hex (__vimcolor_x11 $bkg[2])
+                # If fish_pager_color_completion has a background color,
+                # the drowing for completion becoms strange.
+                if not test "$fish_group" = "fish_pager_color_completion"
+                    set -l hex
 
-                test -n "$hex"
-                and set to_eval "$to_eval --background=$hex"
-                or echo "vimcolor: unknown background color '$bkg[2]' ($vim_group -> $fish_group)" >/dev/stderr
+                    string match -qr '^[0-9a-fA-F]{6}$' $bkg[2]
+                    and set hex $bkg[2]
+                    or set hex (__vimcolor_x11 $bkg[2])
 
+                    test -n "$hex"
+                    and set to_eval "$to_eval --background=$hex"
+                    or echo "vimcolor: unknown background color '$bkg[2]' ($vim_group -> $fish_group)" >/dev/stderr
+                end
             end
 
             # attributes list

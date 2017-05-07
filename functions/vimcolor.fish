@@ -298,22 +298,26 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         eval "set$scope $fish_group $to_eval"
     end
 
-    __vimcolor_convert fish_color_normal          Normal
-    __vimcolor_convert fish_color_command         Statement
-    __vimcolor_convert fish_color_quote           String
-    __vimcolor_convert fish_color_redirection     Directory
-    __vimcolor_convert fish_color_end             Delimiter
-    __vimcolor_convert fish_color_error           Error
-    __vimcolor_convert fish_color_param           Identifier
-    __vimcolor_convert fish_color_comment         Comment
-    __vimcolor_convert fish_color_match           MatchParen
-    __vimcolor_convert fish_color_search_match    Search
-    __vimcolor_convert fish_color_operator        Operator
-    __vimcolor_convert fish_color_escape          SpecialChar
-    __vimcolor_convert fish_color_autosuggestion  Comment
-    __vimcolor_convert fish_color_valid_path      Underlined
-    __vimcolor_convert fish_color_history_current Directory
-    __vimcolor_convert fish_color_selection       Visual
+    __vimcolor_convert fish_color_normal            Normal
+    __vimcolor_convert fish_color_command           Statement
+    __vimcolor_convert fish_color_quote             String
+    __vimcolor_convert fish_color_redirection       Directory
+    __vimcolor_convert fish_color_end               Delimiter
+    __vimcolor_convert fish_color_error             Error
+    __vimcolor_convert fish_color_param             Identifier
+    __vimcolor_convert fish_color_comment           Comment
+    __vimcolor_convert fish_color_match             MatchParen
+    __vimcolor_convert fish_color_search_match      PmenuSel
+    __vimcolor_convert fish_color_operator          Operator
+    __vimcolor_convert fish_color_escape            SpecialChar
+    __vimcolor_convert fish_color_autosuggestion    Comment
+    __vimcolor_convert fish_color_valid_path        Underlined
+    __vimcolor_convert fish_color_history_current   Directory
+    __vimcolor_convert fish_color_selection         Visual
+    __vimcolor_convert fish_pager_color_completion  Pmenu
+    __vimcolor_convert fish_pager_color_prefix      Title
+    __vimcolor_convert fish_pager_color_description WildMenu
+    __vimcolor_convert fish_pager_color_progress    MoreMsg
 
     # Remove the temporally file
     rm $tmp

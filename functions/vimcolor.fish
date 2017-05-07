@@ -320,7 +320,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
     __vimcolor_convert fish_color_selection         Visual
     __vimcolor_convert fish_pager_color_completion  Pmenu
     __vimcolor_convert fish_pager_color_prefix      Title
-    __vimcolor_convert fish_pager_color_description WildMenu
+    __vimcolor_convert fish_pager_color_description SpecialComment
     __vimcolor_convert fish_pager_color_progress    MoreMsg
 
     # Remove the temporally file

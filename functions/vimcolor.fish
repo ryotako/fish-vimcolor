@@ -207,8 +207,27 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         echo
     end
 
+    # Make a temporally file
+    set -l tmp (mktemp)
+
+    # get the colorscheme information from vim
+    vim $tmp -e\
+     +'set nonumber'\
+     +"colorscheme $scheme"\
+     +'redir @a'\
+     +'colorscheme'\
+     +'highlight'\
+     +'redir END'\
+     +'put a'\
+     +'wq!' >/dev/null
+    
+     if test "$status" != 0
+        echo "vimcolor: unknown colorscheme '$scheme'" >/dev/stderr
+        return 1
+     end
+
     # Function to convert vim-colorscheme info into fish's one
-    function __vimcolor_convert -V scope -a tmp fish_group vim_group
+    function __vimcolor_convert -V scope -V tmp -a fish_group vim_group
         set -l to_eval ''
         while read -l line
             set -l attrs (string match -r "^$vim_group .*gui=(\w+(,\w+)*)" $line)
@@ -225,7 +244,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
                 test -n "$hex"
                 and set to_eval "$to_eval $hex"
-                or echo "vimcolor: unknown background color '$color[2]' ($vim_group -> fish_color_$fish_group)" >/dev/stderr
+                or echo "vimcolor: unknown background color '$color[2]' ($vim_group -> $fish_group)" >/dev/stderr
             end
 
             # background color
@@ -238,7 +257,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
                 test -n "$hex"
                 and set to_eval "$to_eval --background=$hex"
-                or echo "vimcolor: unknown background color '$bkg[2]' ($vim_group -> fish_color_$fish_group)" >/dev/stderr
+                or echo "vimcolor: unknown background color '$bkg[2]' ($vim_group -> $fish_group)" >/dev/stderr
 
             end
 
@@ -262,57 +281,41 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
             # links to another syntax group
             set -l link (string match -r "^$vim_group .*links to (\w+).*" $line)
             if test $status = 0
-                __vimcolor_convert $tmp $fish_group $link[2]
+                __vimcolor_convert $fish_group $link[2]
                 return
             end
         end <$tmp
 
         if isatty stdout
             echo -n (eval set_color $to_eval)
-            echo "set$scope fish_color_$fish_group $to_eval"(set_color normal)
+            echo "set$scope $fish_group $to_eval"(set_color normal)
         else
-            echo "set$scope fish_color_$fish_group $to_eval"
+            echo "set$scope $fish_group $to_eval"
         end
         if test "$scope" = " -U"
-            eval "set -e fish_color_$fish_group"
+            eval "set -e $fish_group"
         end
-        eval "set$scope fish_color_$fish_group $to_eval"
+        eval "set$scope $fish_group $to_eval"
     end
 
-    # get the colorscheme information from vim
-    set -l tmp (mktemp)
-    vim $tmp -e\
-     +'set nonumber'\
-     +"colorscheme $scheme"\
-     +'redir @a'\
-     +'colorscheme'\
-     +'highlight'\
-     +'redir END'\
-     +'put a'\
-     +'wq!' >/dev/null
-    
-     if test "$status" != 0
-        echo "vimcolor: unknown colorscheme '$scheme'" >/dev/stderr
-        return 1
-     end
+    __vimcolor_convert fish_color_normal          Normal
+    __vimcolor_convert fish_color_command         Statement
+    __vimcolor_convert fish_color_quote           String
+    __vimcolor_convert fish_color_redirection     Directory
+    __vimcolor_convert fish_color_end             Delimiter
+    __vimcolor_convert fish_color_error           Error
+    __vimcolor_convert fish_color_param           Identifier
+    __vimcolor_convert fish_color_comment         Comment
+    __vimcolor_convert fish_color_match           MatchParen
+    __vimcolor_convert fish_color_search_match    Search
+    __vimcolor_convert fish_color_operator        Operator
+    __vimcolor_convert fish_color_escape          SpecialChar
+    __vimcolor_convert fish_color_autosuggestion  Comment
+    __vimcolor_convert fish_color_valid_path      Underlined
+    __vimcolor_convert fish_color_history_current Directory
+    __vimcolor_convert fish_color_selection       Visual
 
-    __vimcolor_convert $tmp normal Normal
-    __vimcolor_convert $tmp command Statement
-    __vimcolor_convert $tmp quote String
-    __vimcolor_convert $tmp redirection Directory
-    __vimcolor_convert $tmp end Delimiter
-    __vimcolor_convert $tmp error Error
-    __vimcolor_convert $tmp param Identifier
-    __vimcolor_convert $tmp comment Comment
-    __vimcolor_convert $tmp match MatchParen
-    __vimcolor_convert $tmp search_match Search
-    __vimcolor_convert $tmp operator Operator
-    __vimcolor_convert $tmp escape SpecialChar
-    __vimcolor_convert $tmp autosuggestion Comment
-    __vimcolor_convert $tmp valid_path Underlined
-    __vimcolor_convert $tmp history_current Directory
-    __vimcolor_convert $tmp selection Visual
-
+    # Remove the temporally file
     rm $tmp
 end
 

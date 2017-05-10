@@ -21,9 +21,10 @@ Usage:
     vimcolor [options] [vim-colorscheme]
 
 Options:
-    -h, --help       show this help message
-    -l, --list       list available vim colorschemes
-    -U, --universal  save the colorscheme as universal variables
+    -h, --help                  show this help message
+    -l, --list                  list available vim colorschemes
+    -n, --no-normal-background  ignore background color for fish_color_normal
+    -U, --universal             save the colorscheme as universal variables
 ```
 
 <img src=./demo.gif width=400px>

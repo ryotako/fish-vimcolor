@@ -8,9 +8,10 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
         echo "    vimcolor [options] [vim-colorscheme]"
         echo
         echo "Options:"
-        echo "    -h, --help       show this help message"
-        echo "    -l, --list       list available vim colorschemes"
-        echo "    -U, --universal  save the colorscheme as universal variables"
+        echo "    -h, --help                  show this help message"
+        echo "    -l, --list                  list available vim colorschemes"
+        echo "    -n, --no-normal-background  ignore background color for fish_color_normal"
+        echo "    -U, --universal             save the colorscheme as universal variables"
     end
 
     # --list option
@@ -32,6 +33,8 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
     # Parse options
     set -l scope ' -g'
     set -l scheme
+    set -l bkg_ignore fish_pager_color_completion
+
     while count $argv >/dev/null
         switch $argv[1]
             case -h --help
@@ -40,6 +43,8 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
             case -l --list
                 __vimcolor_list
                 return
+            case -n --no-normal-background
+                set bkg_ignore $bkg_ignore fish_color_normal
             case -U --universal
                 set scope ' -U'
             case '--'
@@ -227,7 +232,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
      end
 
     # Function to convert vim-colorscheme info into fish's one
-    function __vimcolor_convert -V scope -V tmp -a fish_group vim_group
+    function __vimcolor_convert -V scope -V bkg_ignore -V tmp -a fish_group vim_group
         set -l to_eval ''
         while read -l line
             set -l attrs (string match -r "^$vim_group .*gui=(\w+(,\w+)*)" $line)
@@ -252,7 +257,7 @@ function vimcolor -a scheme -d 'convert a vim-colorscheme into a fish-colorschem
 
                 # If fish_pager_color_completion has a background color,
                 # the drowing for completion becoms strange.
-                if not test "$fish_group" = "fish_pager_color_completion"
+                if not contains "$fish_group" $bkg_ignore
                     set -l hex
 
                     string match -qr '^[0-9a-fA-F]{6}$' $bkg[2]
